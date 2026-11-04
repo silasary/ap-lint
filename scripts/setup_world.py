@@ -28,12 +28,13 @@ def setup_world():
         elif (manifest_path := f'{stub}/archipelago.json') in zip_ref.namelist():
             manifest = zip_ref.read(manifest_path)
         else:
-            raise RuntimeError("archipelago.json not found in the world zip")
+            print("archipelago.json not found in the world zip")
+            manifest = {}
     print(f"Extracted world {world} to /Archipelago/worlds")
 
     parsed_manifest = json.loads(manifest)
 
-    stat = WorldInfo(game=parsed_manifest["game"], stub=stub, manifest=parsed_manifest)
+    stat = WorldInfo(game=parsed_manifest.get("game"), stub=stub, manifest=parsed_manifest)
     with open("/out/stat.json", 'w') as f:
         json.dump(stat._asdict(), f, indent=4)
     return stat
