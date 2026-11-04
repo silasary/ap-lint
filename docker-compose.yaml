@@ -1,0 +1,13 @@
+services:
+  app:
+    container_name: ap_lint
+    build: .
+    volumes:
+      - ./worlds:/worlds
+      - ./out:/out
+    develop:
+      watch:
+        - action: rebuild
+          path: ./scripts/
+        - action: rebuild
+          path: ./worlds/

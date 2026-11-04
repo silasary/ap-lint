@@ -1,0 +1,14 @@
+target-version = "py312"
+[lint]
+select = ["E", "F", "B", "S"]
+ignore = [
+    "E501",  # Line too long
+    "F401",  # Module imported but unused
+    "F841",  # Local variable assigned but never used
+    "B905",  # zip-without-explicit-strict
+    "E402",  # Module level import not at top of file
+    "S101",  # Use of assert detected
+    "S324",  # Use of insecure hash function
+    "S311",  # suspicious-non-cryptographic-random-usage
+    "E731",  # Do not assign a `lambda` expression, use a `def`
+    ]
