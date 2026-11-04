@@ -29,7 +29,7 @@ def setup_world():
             manifest = zip_ref.read(manifest_path)
         else:
             print("archipelago.json not found in the world zip")
-            manifest = {}
+            manifest = "{}"
     print(f"Extracted world {world} to /Archipelago/worlds")
 
     parsed_manifest = json.loads(manifest)
