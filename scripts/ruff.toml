@@ -11,4 +11,6 @@ ignore = [
     "S324",  # Use of insecure hash function
     "S311",  # suspicious-non-cryptographic-random-usage
     "E731",  # Do not assign a `lambda` expression, use a `def`
+    "E713",  # Test for membership should be 'not in' rather than 'not ... in'
+    "B007",  # Loop control variable not used within the loop body
     ]
