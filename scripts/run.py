@@ -46,23 +46,26 @@ fuzz_cmd = [sys.executable, "/Archipelago/fuzz.py",
 subprocess.run(fuzz_cmd, check=False)
 shutil.copy("/Archipelago/fuzz_output/report.json", "/out/fuzz_output.json")
 
-get_worldman = requests.get("https://github.com/silasary/Archipelago/releases/download/apworld_manager-0.0.26/apworld_manager.apworld")
-with open("/Archipelago/custom_worlds/apworld_manager.apworld", "wb") as f:
-    f.write(get_worldman.content)
-worldman_cmd = [sys.executable, "/Archipelago/Launcher.py",
-                "worldman",
-                "--",
-                "--nogui",
-                "--install", "tracker",
-                ]
+try:
+    get_worldman = requests.get("https://github.com/silasary/Archipelago/releases/download/apworld_manager-0.0.26/apworld_manager.apworld")
+    with open("/Archipelago/custom_worlds/apworld_manager.apworld", "wb") as f:
+        f.write(get_worldman.content)
+    worldman_cmd = [sys.executable, "/Archipelago/Launcher.py",
+                    "worldman",
+                    "--",
+                    "--nogui",
+                    "--install", "tracker",
+                    ]
 
-subprocess.run(worldman_cmd, check=False)
+    subprocess.run(worldman_cmd, check=False)
 
-fuzz_ut_cmd = fuzz_cmd + [
-    "--hook", "worlds.tracker.fuzzer_hook:Hook"
-]
-subprocess.run(fuzz_ut_cmd, check=False)
-shutil.copy("/Archipelago/fuzz_output/report.json", "/out/fuzz_ut_output.json")
+    fuzz_ut_cmd = fuzz_cmd + [
+        "--hook", "worlds.tracker.fuzzer_hook:Hook"
+    ]
+    subprocess.run(fuzz_ut_cmd, check=False)
+    shutil.copy("/Archipelago/fuzz_output/report.json", "/out/fuzz_ut_output.json")
+except requests.exceptions.HTTPError:
+    print("Failed to download world manager, skipping UT fuzzing")
 
 if os.environ.get("KEEP_RUNNING"):
     while True:
